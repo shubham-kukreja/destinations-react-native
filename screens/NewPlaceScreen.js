@@ -12,18 +12,21 @@ import LocationPicker from "../components/LocationPicker";
 const NewPlaceScreen = (props) => {
   const [titleValue, setTitleValue] = useState();
   const [selectedImage, setSelectedImage] = useState();
+  const [location, setLocation] = useState();
   const dispatch = useDispatch();
   const titleChangeHandler = (text) => {
     setTitleValue(text);
   };
   const savePlaceHandler = () => {
-    dispatch(placesAction.addPlace(titleValue, selectedImage));
+    dispatch(placesAction.addPlace(titleValue, selectedImage, location.lat, location.lng));
     props.navigation.navigate("Places");
   };
   const imageTakenHandler = (imagePath) => {
     setSelectedImage(imagePath);
   };
-
+  const locationPickedHandler = (location) => {
+    setLocation(location);
+  };
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -34,7 +37,11 @@ const NewPlaceScreen = (props) => {
           value={titleValue}
         />
         <ImagePicker onImageTaken={imageTakenHandler} />
-        <LocationPicker navigation={props.navigation} params={props.route} />
+        <LocationPicker
+          navigation={props.navigation}
+          onPickedLocation={locationPickedHandler}
+          pickedLocation={props.route.params.pickedLocation}
+        />
         <Button
           title="Save"
           color={Colors.primary}

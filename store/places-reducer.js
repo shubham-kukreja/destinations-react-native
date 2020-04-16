@@ -11,7 +11,9 @@ export default (state = initialState, action) => {
       const new_place = new Place(
         action.placeData.id.toString(),
         action.placeData.title,
-        action.placeData.image
+        action.placeData.image,
+        action.placeData.lat,
+        action.placeData.lng
       );
       return {
         places: state.places.concat(new_place),
@@ -19,7 +21,7 @@ export default (state = initialState, action) => {
     case SET_PLACES:
       return {
         places: action.places.map(
-          (p) => new Place(p.id.toString(), p.title, p.imageUri)
+          (p) => new Place(p.id.toString(), p.title, p.imageUri, p.lat, p.lng)
         ),
       };
     default:

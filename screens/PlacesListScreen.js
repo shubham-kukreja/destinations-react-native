@@ -17,7 +17,7 @@ const PlacesListScreen = (props) => {
             title="Cart"
             iconName={"ios-add"}
             onPress={() => {
-              props.navigation.navigate("NewPlace");
+              props.navigation.navigate("NewPlace", { pickedImage: null });
             }}
           />
         </HeaderButtons>
@@ -43,6 +43,9 @@ const PlacesListScreen = (props) => {
             props.navigation.navigate("PlaceDetail", {
               placeTitle: itemData.item.title,
               placeId: itemData.item.id,
+              placeImg : itemData.item.imageUri,
+              placeLat : itemData.item.lat,
+              placeLng : itemData.item.lng
             })
           }
         />

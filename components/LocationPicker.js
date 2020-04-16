@@ -14,16 +14,16 @@ import * as Permissions from "expo-permissions";
 const LocationPicker = (props) => {
   const [pickedLocation, setPickedLocation] = useState();
   const [isFetching, setisFetching] = useState();
-  const pickedLocationParams = props.params.params;
 
   useEffect(() => {
-    console.log(pickedLocationParams);
-    if (pickedLocationParams) {
-      console.log("1");
-
-      setPickedLocation(pickedLocationParams.pickedLocation);
+    if (props.pickedLocation) {
+      setPickedLocation({
+        lat: props.pickedLocation.lat,
+        lng: props.pickedLocation.lat,
+      });
+      props.onPickedLocation(props.pickedLocation);
     }
-  }, []);
+  }, [props]);
   const verifyPermission = async () => {
     const result = await Permissions.askAsync(Permissions.LOCATION);
     if (result.status !== "granted") {
@@ -45,6 +45,10 @@ const LocationPicker = (props) => {
       });
       setisFetching(false);
       setPickedLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+      props.onPickedLocation({
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
